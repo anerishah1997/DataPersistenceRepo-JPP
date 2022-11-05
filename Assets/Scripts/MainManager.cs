@@ -25,7 +25,7 @@ public class MainManager : MonoBehaviour
         // First check that the MainManagerMenu's instance is null or not. This is useful when we directly run the Main scene, rather than coming from Menu Scene.
         if (MainManagerMenu.Instance != null)
         {
-            // initializing the bestScoretext with the name of the player passed from the Menu scene's MainManagerMenu script.
+            // whenever this Main scene is loaded, it will display the last best score saved & the player name whose that best score is, is loaded.
             bestScoreText.text = "Best Score: " + MainManagerMenu.Instance.LoadPlayerName() + " : " + MainManagerMenu.Instance.LoadBestScore();
         }
     }
@@ -79,11 +79,12 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
     }
 
+    // we will save the best score if it is less than the current score, in JSON format, so therefore we call SaveBestScoreandName() of "MainManagerMenu.cs"
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-        if (m_Points >= MainManagerMenu.Instance.LoadBestScore())
+        if (m_Points >= MainManagerMenu.Instance.LoadBestScore()) // check whether the current score is greater than the lastly saved best score.
         {
             bestScore = m_Points;
             bestScoreText.text = "Best Score: " + MainManagerMenu.Instance.textInputEntered + " : " + bestScore;
