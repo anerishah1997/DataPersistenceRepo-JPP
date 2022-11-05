@@ -12,13 +12,24 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text bestScoreText;
+    public int bestScore;
     
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
 
-    
+    public void Awake()
+    {
+        // First check that the MainManagerMenu's instance is null or not. This is useful when we directly run the Main scene, rather than coming from Menu Scene.
+        if (MainManagerMenu.Instance != null)
+        {
+            // initializing the bestScoretext with the name of the player passed from the Menu scene's MainManagerMenu script.
+            bestScoreText.text = "Best Score: " + MainManagerMenu.Instance.LoadPlayerName() + " : " + MainManagerMenu.Instance.LoadBestScore();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +46,7 @@ public class MainManager : MonoBehaviour
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
             }
-        }
+        }       
     }
 
     private void Update()
@@ -72,5 +83,12 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if (m_Points >= MainManagerMenu.Instance.LoadBestScore())
+        {
+            bestScore = m_Points;
+            bestScoreText.text = "Best Score: " + MainManagerMenu.Instance.textInputEntered + " : " + bestScore;
+            MainManagerMenu.Instance.SaveBestScoreAndName(bestScore);
+        }
+           
     }
 }
