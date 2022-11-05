@@ -56,6 +56,7 @@ public class MainManagerMenu : MonoBehaviour
         return data.bestScore; // directly returning the bestScore which was stored in the previous session.
     }
 
+    // we will also load the player name in the Main scene where the player name whose best score which is saved previously, will be loaded.
     public string LoadPlayerName()
     {
         SaveData data = new SaveData();
